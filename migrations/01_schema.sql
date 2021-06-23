@@ -1,10 +1,10 @@
-CREATE DATABASE lightbnb;
+--CREATE DATABASE lightbnb;
 
 
-DROP TABLE users IF EXISTS CASCADE;
-DROP TABLE reservations IF EXISTS CASCADE;
-DROP TABLE property_reviews IF EXISTS CASCADE;
-DROP TABLE properties EXISTS CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS reservations CASCADE;
+DROP TABLE IF EXISTS property_reviews CASCADE;
+DROP TABLE IF EXISTS properties CASCADE;
 
 
 CREATE TABLE users(
@@ -12,22 +12,6 @@ CREATE TABLE users(
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE reservations(
-    id SERIAL PRIMARY KEY NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
-    property_id INTEGER REFERENCES properties(id) ON DELETE CASCADE,
-    guest_id INTEGER REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE property_reviews(
-    id SERIAL PRIMARY KEY NOT NULL,
-    guest_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    property_id INTEGER REFERENCES properties(id) ON DELETE CASCADE,
-    rating SMALLINT NOT NULL DEFAULT 0 ,
-    message TEXT NOT NULL 
 );
 
 CREATE TABLE properties(
@@ -51,4 +35,20 @@ CREATE TABLE properties(
     post_code VARCHAR(255) NOT NULL,
 
     active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE reservations(
+    id SERIAL PRIMARY KEY NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    property_id INTEGER REFERENCES properties(id) ON DELETE CASCADE,
+    guest_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE property_reviews(
+    id SERIAL PRIMARY KEY NOT NULL,
+    guest_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    property_id INTEGER REFERENCES properties(id) ON DELETE CASCADE,
+    rating SMALLINT NOT NULL DEFAULT 0 ,
+    message TEXT NOT NULL 
 );
